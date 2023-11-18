@@ -28,8 +28,8 @@ jobs:
         run: |
           aws sagemaker start-notebook-instance --notebook-instance-name sample3
 
-      - name: wait for 10 min
-        run: sleep 600
+      - name: wait for 20 min
+        run: sleep 1200  # seconds
 
       - name: Stop notebook instance
         run: |
