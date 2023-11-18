@@ -1,0 +1,34 @@
+name: Run SageMaker Script
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-sagemaker-script:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ap-south-1 # Replace with your AWS region
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      SAGEMAKER_INSTANCE_DNS: 13.126.13.44      # Replace with your SageMaker instance DNS or IP
+      SAGEMAKER_USERNAME: ec2-user  # Replace with your SageMaker instance username
+      SCRIPT_PATH: /home/ec2-user/SageMaker/script.sh  # Replace with the path to your script on the SageMaker instance
+  
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Configure AWS Credentials
+        run: aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }} && aws configure set region ${{ env.AWS_REGION }}
+      
+      - name: Update AWS Secrets Manager
+        run: |
+          aws sagemaker start-notebook-instance --notebook-instance-name sample3
+          
+
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
