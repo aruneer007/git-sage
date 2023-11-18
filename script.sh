@@ -1,1 +1,1 @@
-python sample.py
+python git-sage/sample.py
