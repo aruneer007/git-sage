@@ -27,7 +27,7 @@ jobs:
       - name: Check if Secret Exists
         id: check_secret
         run: |
-          aws secretsmanager describe-secret --secret-id sample5 || echo "::set-output name=secret_exists::false"
+          aws secretsmanager describe-secret --secret-id sample6
   
       - name: Update or Create Secret
         run: |
@@ -35,11 +35,11 @@ jobs:
           
           if [ "$secret_exists" == "false" ]; then
             aws secretsmanager create-secret \
-              --name sample5 \
+              --name sample6 \
               --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'"}' --region ap-south-1
           else
             aws secretsmanager update-secret \
-              --secret-id sample5 \
+              --secret-id sample6 \
               --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'","key2":"value2","key3":"value3"}' \
               --region ap-south-1
           fi
