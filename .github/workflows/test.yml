@@ -29,8 +29,12 @@ jobs:
           # aws secretsmanager create-secret \
           #   --name sample \
           #   --secret-string '{"key1":"value1", "key2":"value2"}'
-
-          aws secretsmanager create-secret --name sample --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'"}' --region ap-south-1
+          if [ $? -ne 0 ]; then
+          aws secretsmanager create-secret --name sample1 --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'"}' --region ap-south-1
+          echo "Secret created successfully."
+          else
+          echo "Secret already exists. Skipping creation."
+          fi
 
       - name: Start notebook instance
         run: |
