@@ -26,16 +26,11 @@ jobs:
       
       - name: Store Secrets in AWS Secrets Manager
         run: |
-          
-          aws secretsmanager describe-secret --secret-id sample2 --region ap-south-1 > /dev/null 2>&1
-
-          if [ $? -ne 0 ]; then
-          aws secretsmanager create-secret --name sample2 --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'","key2":"value2"}' --region ap-south-1
-          echo "Secret created successfully."
-          else
-          echo "Secret already exists. Skipping creation."
-          fi
-          
+          # aws secretsmanager create-secret \
+          #   --name sample \
+          #   --secret-string '{"key1":"value1", "key2":"value2"}'
+        
+          aws secretsmanager update-secret --name sample1 --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'","key2":"value2"}' --region ap-south-1
 
       - name: Start notebook instance
         run: |
@@ -48,5 +43,12 @@ jobs:
         run: |
           aws sagemaker stop-notebook-instance --notebook-instance-name sample2
 
-          
+          aws secretsmanager describe-secret --secret-id YourSecret --region ap-south-1 > /dev/null 2>&1
+
+          if [ $? -ne 0 ]; then
+          aws secretsmanager create-secret --name YourSecret --secret-string '{"YourAPIKeyField":"'"${{ secrets.API_KEY }}"'"}' --region ap-south-1
+          echo "Secret created successfully."
+          else
+          echo "Secret already exists. Skipping creation."
+          fi
 
