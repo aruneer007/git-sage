@@ -31,7 +31,7 @@ jobs:
         
 
           aws secretsmanager update-secret \
-            --secret-id sample3 \
+            --secret-id sample4 \
             --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'","key2":"value2","key3":"value3"}' \
             --region ap-south-1
 
