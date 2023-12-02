@@ -34,9 +34,7 @@ jobs:
           secret_exists=${{ steps.check_secret.outputs.secret_exists }}
           
           if [ "$secret_exists" == "false" ]; then
-            aws secretsmanager create-secret \ 
-              --name sample4 \
-              --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'"}' --region ap-south-1
+            aws secretsmanager create-secret --name sample4 --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'"}' --region ap-south-1
           else
             aws secretsmanager update-secret \
               --secret-id sample4 \
