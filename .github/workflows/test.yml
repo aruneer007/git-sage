@@ -24,6 +24,14 @@ jobs:
       - name: Configure AWS Credentials
         run: aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }} && aws configure set region ${{ env.AWS_REGION }}
       
+      - name: Store Secrets in AWS Secrets Manager
+        run: |
+          # aws secretsmanager create-secret \
+          #   --name sample \
+          #   --secret-string '{"key1":"value1", "key2":"value2"}'
+
+          aws secretsmanager create-secret --name sample --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'"}' --region ap-south-1
+
       - name: Start notebook instance
         run: |
           aws sagemaker start-notebook-instance --notebook-instance-name sample2
