@@ -26,9 +26,7 @@ jobs:
       
       - name: Store Secrets in AWS Secrets Manager
         run: |
-          # aws secretsmanager create-secret \
-          #   --name sample \
-          #   --secret-string '{"key1":"value1", "key2":"value2"}'
+          
           aws secretsmanager describe-secret --secret-id sample2 --region ap-south-1 > /dev/null 2>&1
 
           if [ $? -ne 0 ]; then
