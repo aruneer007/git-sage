@@ -27,11 +27,11 @@ jobs:
       - name: Check if Secret Exists
         id: check_secret
         run: |
-          aws secretsmanager describe-secret --secret-id sample7
+          aws secretsmanager describe-secret --secret-id sample7 || echo "::set-output name=secret_exists::false"
   
       - name: Update or Create Secret
         run: |
-          secret_exists=${{ steps.check_secret.outputs.secret_exists }}
+          secret_exists=${{ steps.check_secret.outputs.secret_exists }} 
           
           if [ "$secret_exists" == "false" ]; then
             aws secretsmanager create-secret \
