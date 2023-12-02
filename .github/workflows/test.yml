@@ -30,7 +30,7 @@ jobs:
           # aws secretsmanager create-secret --name sample3 --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'","key2":"value2"}' --region ap-south-1
         
 
-          aws secretsmanager update-secret --secret-id sample3 --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'","key2":"value2"}' --region ap-south-1
+          aws secretsmanager update-secret --secret-id sample3 --secret-string '{"${{ env.AWS_ACCESS_KEY_ID }}":"'"${{ env.AWS_SECRET_ACCESS_KEY }}"'","key2":"value2","key3":"value3"}' --region ap-south-1
 
       - name: Start notebook instance
         run: |
